@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CiscoFM — Spiegazione dei testi</title>
+<meta name="description" content="Spiegazioni ufficiali dei testi." />
+<style>
+  :root{--accent:#242424;--muted:#666}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0; color:#111; background:#f7f7f7}
+  header{background:#fff;padding:18px 20px;border-bottom:1px solid #e6e6e6}
+  .wrap{max-width:980px;margin:20px auto;padding:0 16px}
+  h1{margin:0;font-size:1.4rem}
+  .search{margin:18px 0;display:flex;gap:8px;align-items:center}
+  input[type="search"]{flex:1;padding:10px 12px;border:1px solid #ddd;border-radius:8px}
+  #songs-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .song-card{background:#fff;padding:12px;border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer}
+  .song-card h3{margin:0 0 6px 0;font-size:1rem}
+  .song-meta{font-size:0.85rem;color:var(--muted)}
+  #song-detail{margin-top:18px;background:#fff;padding:16px;border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+  .hidden{display:none}
+  footer{margin:40px 0 80px;text-align:center;color:var(--muted);font-size:0.9rem}
+  @media (max-width:600px){h1{font-size:1.1rem}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>NOME ARTISTA — Spiegazione dei testi</h1></div></header>
+<main class="wrap" id="app">
+  <div class="search">
+    <input id="search" type="search" placeholder="Cerca per titolo o parola chiave..." aria-label="Cerca canzoni">
+    <button id="show-all">Mostra tutte</button>
+  </div>
+
+  <ul id="songs-list" aria-live="polite"></ul>
+
+  <article id="song-detail" class="hidden" aria-live="polite"></article>
+
+  <footer>
+    Questo spazio è dedicato alle spiegazioni ufficiali dei miei testi — aggiornato da [NOME ARTISTA].
+  </footer>
+</main>
+
+<script>
+/* ======== INIZIO: qui inserisci le canzoni ========
+   Modifica l'array SONGS per aggiungere/aggiornare le spiegazioni.
+   Ogni oggetto ha queste chiavi:
+     - slug (stringa con parole-minuscole-e-trattini)
+     - title (titolo del brano)
+     - year
+     - album
+     - excerpt (breve descrizione)
+     - meaning (può contenere HTML semplice: <p>, <strong>, <ul>, ecc.)
+   Esempio di struttura già presente: trovi due brani di esempio.
+*/
+const SONGS = [
+  {
+    slug: "mio-primo-singolo",
+    title: "Mio primo singolo",
+    year: "2025",
+    album: "Singolo",
+    excerpt: "Una canzone sulla ricerca di sé e il contrasto con la città.",
+    meaning: "<p>Questa canzone parla della sensazione di non appartenere... (qui la tua spiegazione completa).</p>"
+  },
+  {
+    slug: "secondo-brano",
+    title: "Secondo brano",
+    year: "2024",
+    album: "EP 2024",
+    excerpt: "Un testo scritto dopo una notte di riflessione.",
+    meaning: "<p>Il brano usa immagini di luce e buio per descrivere il cambiamento.</p>"
+  }
+];
+
+/* ====== non c'è bisogno di cambiare il resto del codice ====== */
+const listEl = document.getElementById('songs-list');
+const detailEl = document.getElementById('song-detail');
+const searchEl = document.getElementById('search');
+const showAllBtn = document.getElementById('show-all');
+
+function renderList(filter = "") {
+  const q = filter.trim().toLowerCase();
+  listEl.innerHTML = "";
+  const filtered = SONGS.filter(s => (s.title + " " + (s.excerpt||"") + " " + (s.album||"")).toLowerCase().includes(q));
+  if(filtered.length === 0){
+    listEl.innerHTML = "<li style='grid-column:1/-1;color:#666;padding:12px;background:#fff;border-radius:8px'>Nessun risultato</li>";
+    detailEl.classList.add('hidden');
+    return;
+  }
+  filtered.forEach(s => {
+    const li = document.createElement('li');
+    li.className = 'song-card';
+    li.tabIndex = 0;
+    li.innerHTML = `<h3>${escapeHtml(s.title)}</h3><div class="song-meta">${escapeHtml(s.album || '')} • ${escapeHtml(s.year || '')}</div><p style="margin:8px 0 0;color:#555">${escapeHtml(s.excerpt || '')}</p>`;
+    li.addEventListener('click', () => loadSong(s.slug));
+    li.addEventListener('keypress', (e)=>{ if(e.key==='Enter') loadSong(s.slug); });
+    listEl.appendChild(li);
+  });
+}
+
+function loadSong(slug){
+  const s = SONGS.find(x => x.slug === slug);
+  if(!s) return;
+  detailEl.classList.remove('hidden');
+  detailEl.innerHTML = `<h2>${escapeHtml(s.title)}</h2>
+    <div class="song-meta">${escapeHtml(s.album||'')} • ${escapeHtml(s.year||'')}</div>
+    <hr style="margin:12px 0">
+    <section>${s.meaning}</section>
+    <p style="margin-top:12px;color:var(--muted);font-size:0.9rem">Link diretto: <code>${location.origin}${location.pathname}#${s.slug}</code></p>`;
+  location.hash = slug;
+  detailEl.scrollIntoView({behavior:'smooth'});
+}
+
+function escapeHtml(str = '') {
+  return String(str).replace(/[&<>"']/g, function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m];});
+}
+
+searchEl.addEventListener('input', (e)=> renderList(e.target.value));
+showAllBtn.addEventListener('click', ()=> { searchEl.value=''; renderList(''); });
+
+window.addEventListener('hashchange', ()=> {
+  const slug = location.hash.replace('#','');
+  if(slug) loadSong(slug);
+});
+
+renderList();
+if(location.hash) {
+  const initial = location.hash.replace('#','');
+  setTimeout(()=> loadSong(initial), 300);
+}
+</script>
+</body>
+</html>
