@@ -1,119 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CiscoFM — Spiegazione dei testi</title>
-<meta name="description" content="Spiegazioni ufficiali dei testi di CiscoFM." />
-<style>
-  :root{--accent:#242424;--muted:#666}
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0; color:#111; background:#f7f7f7}
-  header{background:#fff;padding:18px 20px;border-bottom:1px solid #e6e6e6}
-  .wrap{max-width:980px;margin:20px auto;padding:0 16px}
-  h1{margin:0;font-size:1.4rem}
-  .search{margin:18px 0;display:flex;gap:8px;align-items:center}
-  input[type="search"]{flex:1;padding:10px 12px;border:1px solid #ddd;border-radius:8px}
-  #songs-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-  .song-card{background:#fff;padding:12px;border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.04);cursor:pointer}
-  .song-card h3{margin:0 0 6px 0;font-size:1rem}
-  .song-meta{font-size:0.85rem;color:var(--muted)}
-  #song-detail{margin-top:18px;background:#fff;padding:16px;border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.04)}
-  .hidden{display:none}
-  footer{margin:40px 0 80px;text-align:center;color:var(--muted);font-size:0.9rem}
-  @media (max-width:600px){h1{font-size:1.1rem}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CiscoFM — Teatro della Nascita</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      color: #111;
+    }
+    header {
+      background: #1e1e2f;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      margin: 0;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: white;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    li:hover {
+      background: #eee;
+    }
+    .hidden {
+      display: none;
+    }
+    .buttons {
+      margin: 20px 0;
+    }
+    button {
+      background: #3c1053;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #5e2a84;
+    }
+    pre {
+      white-space: pre-wrap;
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+    }
+    h3 {
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
-<header><div class="wrap"><h1>CiscoFM — Spiegazione dei testi</h1></div></header>
-<main class="wrap" id="app">
-  <div class="search">
-    <input id="search" type="search" placeholder="Cerca per titolo o parola chiave..." aria-label="Cerca canzoni">
-    <button id="show-all">Mostra tutte</button>
-  </div>
+  <header>
+    <h1>CiscoFM — Spiegazione dei testi</h1>
+  </header>
+  <main>
+    <!-- Lista delle canzoni -->
+    <section id="song-list">
+      <h2>Canzoni</h2>
+      <ul>
+        <li onclick="openSong()">TEATRO DELLA NASCITA (2025)</li>
+      </ul>
+    </section>
 
-  <ul id="songs-list" aria-live="polite"></ul>
+    <!-- Dettaglio della canzone -->
+    <section id="song-detail" class="hidden">
+      <h2>TEATRO DELLA NASCITA</h2>
+      <div class="buttons">
+        <button onclick="showText()">📖 Leggi il Testo</button>
+        <button onclick="showExplanation()">📝 Leggi la Spiegazione</button>
+        <button onclick="backToList()">⬅ Torna alla lista</button>
+      </div>
 
-  <article id="song-detail" class="hidden" aria-live="polite"></article>
+      <div id="song-text" class="hidden">
+        <h3>Testo</h3>
+        <pre>
+Canto la diva come voglio, l’ira che mi opprime deriva da questo compito,
+non è questione di orgoglio, il contrario, infatti provo rabbia spesso verso ciò che amo,
+se parlo di verso è perché c’è una direzione,
+se parlo diverso è anche per provocazione, 
+io che ho chiesto un seme per una generazione,
+ora che ti tendo il frutto perché cogli l’intenzione?
 
-  <footer>
-    Questo spazio è dedicato alle spiegazioni ufficiali dei miei testi — aggiornato da CiscoFM.
-  </footer>
-</main>
+Ho messo le mani mani avanti, signori, premesse, argomentazioni, critiche, articolazioni,
+Ho voluto far le cose fatte bene, sostenere una tesi ma infondo
+Sono giustificazioni, mi riscopro debole, incentrato su me stesso, ne sono colpevole,
+Voglio cambiare rotta, ho il vento favorevole, la nave che mi porta ora ha un segno più autorevole.
 
-<script>
-const SONGS = [
-  {
-    slug: "teatro-della-nascita",
-    title: "TEATRO DELLA NASCITA",
-    year: "2025",
-    album: "Singolo",
-    excerpt: "l'arte per rinascere",
-    meaning: `<p>Mi sono accorto del significato della canzone paradossalmente dopo averla scritta: questo perché questa canzone rappresenta proprio il processo creativo, il cambiamento di scrittura e della mia persona avvenuta in questi anni; più concretamente proprio il mio modo di pormi di fronte al foglio bianco su cui scrivere una volta avuta un’ispirazione.</p>
-<p>Ho voluto narrare quindi come avviene la nascita in primis di qualcosa di artistico, ma poi più in generale mi sono accorto che l’arte ha il potere di far rinascere tutti, sia me sia chi ascolta. Il teatro è figo perché è un luogo in cui letteralmente “prendono atto”, cioè prendono vita, cioè nascono, delle storie.</p>
-<p>L'inizio della canzone è complicato, pieno di figure retoriche e giochi di parole e non si capisce immediatamente. Questo perché quando ho iniziato a scrivere avevo un'impronta molto filosofica, volevo essere originale e complicato, fare delle tesi e riprendere i classici (l'inizio della canzone è come quello dell'Iliade). Ma mi sono sempre sentito sbagliato, non mi andava mai bene quello che producevo/scrivevo e soprattutto mi sono accorto che lo sguardo è sempre rivolto verso me stesso nelle canzoni, il che mi dà fastidio: voglio iniziare a raccontare le storie di altri.</p>
-<p>Man mano che la canzone procede tutto diventa più letterario, iniziano ad esserci delle immagini (la nave, la luna, il diario), che sono più vere, o meglio, hanno un modo più vero di rappresentare la realtà per me. Nonostante le rime argute della prima parte, mi riscopro debole, e inizio a capire che mi sento più in una lotta in cui tutti i giorni scrivo qualcosa, provo a fare arte, ma mi ritrovo di nuovo sulle coste, al solito blocco, nella mia cameretta. La luna (per me è la fede) mi dice che questa non è l'ultima parola, che quelle parole che ho scritto anche oggi non andranno perdute, che c'è speranza.</p>
-<p><strong>Riassunto:</strong> dopo un po' mi sono accorto che è straziante questa solitudine e questa visione “intellettuale” artistica: inizio ad avere voglia di raccontare delle storie.</p>
-<p>Nella prima parte racconto di qualcosa che avviene la sera (c'era la luna) e poi mi sveglio la mattina (il cielo è terso) ma sto male, ho un senso di vuoto addosso che mi capita quasi tutte le mattine. Dopo il casino dei miei pensieri della sera prima mi ritrovo la vita davanti, devo andare a scuola: dico una preghiera affinché quel vuoto della mattina se ne vada. E poi mi ritrovo in classe, che rappresenta un luogo di incontro e di sfida, dove negli occhi dei miei compagni alle volte ci trovo un dramma misto ad una tenerezza. Ogni volta che mi capita dico: voglio scrivere canzoni per loro, per gli altri, per i miei amici, per i miei compagni di classe, è per loro che userò la mia penna come fosse una spada. La tua tenerezza sarà il mio stemma.</p>
-<p>Scena finale: mi immagino che questi anni siano stati un po’ come una gita in montagna: l'immagine della montagna è ripresa dallo Zarathustra di Nietzsche, che significa che è come se questi anni sono cresciuto, mi è successo qualcosa perché ero vicino al cielo ma ero anche da solo a scoprire queste cose, e ora ardo dalla voglia scendere giù in città a raccontare quello che ho visto, andare dai miei amici, e quindi pubblicare la canzone.</p>
-<p>È UN GRANDE VIAGGIO, LA PRIMA SCENA (o opera!) DEL TEATRO DELLA NASCITA! E ad un teatro l'opera è più bella se ci sono diversi personaggi sul palco, non voglio essere solo in questo viaggio.</p>`
-  }
-];
+È sempre stata una lotta
+la notte, arriva in fretta che quasi non me ne accorgo,
+e domani è un nuovo giorno,io sono di nuovo alla partenza, le onde mi han riportato sulle coste, sempre il solito blocco,  
+Lascio l'ultima nota,
+sopra mio il diario di bordo,
+la luna mi consola,
+promette che non sarà l’ennesimo ricordo
 
-const listEl = document.getElementById('songs-list');
-const detailEl = document.getElementById('song-detail');
-const searchEl = document.getElementById('search');
-const showAllBtn = document.getElementById('show-all');
+Oggi mi sveglio presto il cielo è terso,  
+Ma ciò che vedo fuori non rispecchia ciò che ho dentro
+io mi sento freddo, ho qualcosa dentro al petto,  
+Dico una preghiera perché arrivi un nuovo vento
 
-function renderList(filter = "") {
-  const q = filter.trim().toLowerCase();
-  listEl.innerHTML = "";
-  const filtered = SONGS.filter(s => (s.title + " " + (s.excerpt||"") + " " + (s.album||"")).toLowerCase().includes(q));
-  if(filtered.length === 0){
-    listEl.innerHTML = "<li style='grid-column:1/-1;color:#666;padding:12px;background:#fff;border-radius:8px'>Nessun risultato</li>";
-    detailEl.classList.add('hidden');
-    return;
-  }
-  filtered.forEach(s => {
-    const li = document.createElement('li');
-    li.className = 'song-card';
-    li.tabIndex = 0;
-    li.innerHTML = `<h3>${escapeHtml(s.title)}</h3><div class="song-meta">${escapeHtml(s.album || '')} • ${escapeHtml(s.year || '')}</div><p style="margin:8px 0 0;color:#555">${escapeHtml(s.excerpt || '')}</p>`;
-    li.addEventListener('click', () => loadSong(s.slug));
-    li.addEventListener('keypress', (e)=>{ if(e.key==='Enter') loadSong(s.slug); });
-    listEl.appendChild(li);
-  });
-}
+Su questa terra arida, un soffio in mezzo ai tartari,
+un suono di campana, un fiore in mezzo agli alberi,
+una voce familiare, un amico che mi abbracci,
+un’ancora giù nel mare, qualcosa che mi salvi,
 
-function loadSong(slug){
-  const s = SONGS.find(x => x.slug === slug);
-  if(!s) return;
-  detailEl.classList.remove('hidden');
-  detailEl.innerHTML = `<h2>${escapeHtml(s.title)}</h2>
-    <div class="song-meta">${escapeHtml(s.album||'')} • ${escapeHtml(s.year||'')}</div>
-    <hr style="margin:12px 0">
-    <section>${s.meaning}</section>
-    <p style="margin-top:12px;color:var(--muted);font-size:0.9rem">Link diretto: <code>${location.origin}${location.pathname}#${s.slug}</code></p>`;
-  location.hash = slug;
-  detailEl.scrollIntoView({behavior:'smooth'});
-}
+non basta, non bastano queste immagini, 
+che appena arrivo in classe c’ho un amico che sta male,
+Io lo guardo in faccia e mi viene da crollare,
+su una pelle dolce sgorgano lacrime amare,
+come una promessa, che non si è realizzata, nei tuoi occhi c’è l’urgenza, di una vita mai abbracciata,
+mi chiedi salvezza, ma io non posso dartela, userò la mia penna come fosse una spada, 
+lotterò, per la tua tenerezza, ne farò il mio stemma, 
+non dovrò, più fare una premessa, la nostra bussola sarà una promessa, 
 
-function escapeHtml(str = '') {
-  return String(str).replace(/[&<>"']/g, function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m];});
-}
+Mentre il sole cala, io mi sento rinato, 
+Scendo dalla montagna, ora torno a casa,
+Voglio annunciare a tutti quello che mi è capitato
+Voglio gridare ai miei amici che non c'è solo l'inferno,
+Che il male tu hai fatto non è eterno,
+Il fuoco in cui bruciavo adesso è come una carezza,
+Stanno piovendo lacrime che il cielo ha tenerezza,
+Ora, c'è una stella nuova,
+Per me, per te,
+Alza gli occhi e vai,
+Alza gli occhi e vai.
+        </pre>
+      </div>
 
-searchEl.addEventListener('input', (e)=> renderList(e.target.value));
-showAllBtn.addEventListener('click', ()=> { searchEl.value=''; renderList(''); });
+      <div id="song-explanation" class="hidden">
+        <h3>Spiegazione</h3>
+        <p><strong>Il titolo</strong><br>
+        Sono stato ispirato da un vecchio e piccolo libricino chiamato “il senso della nascita” che è una raccolta di dialoghi tra Giovanni Testori e Luigi Giussani. 
+        Il tema del senso della nascita è introdotto da un’osservazione di Testori: in un uomo e in una donna che si amano c’è un momento di “sperdutezza” e di liberazione. Per Giussani la parola “sperdutezza” indica che in quell’istante è all’opera un’altra forza, la forza del Mistero che partecipa alla generazione di un nuovo essere. Il senso della nascita, allora, è la coscienza della propria dipendenza dal mistero. 
+        L’arte (per me la musica) è come una via privilegiata, intima e immensa allo stesso tempo, in cui ci si sente in armonia con questo Mistero. 
+        Il teatro invece da una parte è come una culla, un terreno fertile, dove storie e musiche vengono “messe in atto” e quindi condivise, dall’altro ci ricorda che le tende vengono chiuse ad un certo punto. È un dato di realismo che a questa armonia non basta la musica o l’arte per durare sempre. La musica, le canzoni che faccio e che voglio fare, possono avere l’ambizione massima di essere un aperitivo, o uno sgabello per affacciarsi alle porte del Mistero.</p>
 
-window.addEventListener('hashchange', ()=> {
-  const slug = location.hash.replace('#','');
-  if(slug) loadSong(slug);
-});
+        <p><strong>Il viaggio</strong><br>
+        Questa canzone è come un viaggio, o meglio lo sviluppo di un processo, in 2 direzioni.
+        La prima direzione è dal passato al futuro: l’inizio della canzone infatti ha una scrittura molto ricercata e complicata, e rappresenta il mio modo di scrivere degli ultimi anni, fatto di “premesse, argomentazioni, critiche, articolazioni”. Man mano che la canzone procede iniziano invece ad essere usate immagini più letterarie (la nave, la luna, il diario) che capisco essere non solo un mezzo migliore per esprimere ciò che voglio, ma anche uno stile di scrittura che vorrei caratterizzasse le mie canzoni future.
+        Contemporaneamente (ma non parallelamente, perché forma e contenuto vanno a braccetto), l’altra direzione di questo viaggio è da me stesso all’altro: è il punto di vista che cambia. Se infatti durante l’inizio della canzone il linguaggio complicato è sempre incentrato sulle mie preoccupazioni, nella seconda parte, e specialmente nell’ultima (quella dalle sonorità trap): dichiaro infatti che “userò la mia penna come fosse una spada” per le altre persone e che “scendo dalla montagna, ora torno a casa, voglio annunciare a tutti ciò che mi è capitato.” 
+        Il motivo? Questo viaggio è avvenuto veramente durante questi anni ed inoltre questa canzone rappresenta dunque come un ponte, un passaggio, ma ancor meglio uno slancio versò ciò che sarà di me e delle mie canzoni. È il desiderio di scrivere per gli altri, mosso dall’incontro con gli altri, che è stato il “motore” di questo viaggio (ancora lungo).</p>
 
-renderList();
-if(location.hash) {
-  const initial = location.hash.replace('#','');
-  setTimeout(()=> loadSong(initial), 300);
-}
-</script>
+        <p><strong>Il genere</strong><br>
+        La canzone è chiaramente divisa in due parti: una cantata rap sulla musica classica e una parte finale invece trap. La motivazione è che quando ho scritto questo pezzo al liceo volevo piacere a tutti, e che quindi la prima parte potesse piacere di più ad un tipo di pubblico e la seconda ad un altro.
+        Ai miei amici ho sempre detto che voglio che la mia musica possa essere ascoltata dal maranza al prete.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function openSong() {
+      document.getElementById("song-list").classList.add("hidden");
+      document.getElementById("song-detail").classList.remove("hidden");
+    }
+    function backToList() {
+      document.getElementById("song-detail").classList.add("hidden");
+      document.getElementById("song-list").classList.remove("hidden");
+      document.getElementById("song-text").classList.add("hidden");
+      document.getElementById("song-explanation").classList.add("hidden");
+    }
+    function showText() {
+      document.getElementById("song-text").classList.remove("hidden");
+      document.getElementById("song-explanation").classList.add("hidden");
+    }
+    function showExplanation() {
+      document.getElementById("song-explanation").classList.remove("hidden");
+      document.getElementById("song-text").classList.add("hidden");
+    }
+  </script>
 </body>
 </html>
